@@ -33,8 +33,8 @@ Bundle 'gmarik/vundle'
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 
-colorscheme solarized		" load a colorscheme
-set encoding=utf-8			" character encoding used in Vim: "utf-8" is required for vim-powerline
+silent! colorscheme solarized	" load a colorscheme
+set encoding=utf-8				" character encoding used in Vim: "utf-8" is required for vim-powerline
 
 " 2 moving around, searching and patterns {{{
 set incsearch				" show match for partly typed search command
