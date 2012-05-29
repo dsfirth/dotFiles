@@ -1,5 +1,5 @@
 " 4 displaying text {
-set columns=120			" width of the display
+set columns=140			" width of the display
 set lines=35			" number of lines in the display
 " }
 " 10 GUI {

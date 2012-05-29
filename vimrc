@@ -66,7 +66,7 @@ set softtabstop=4			" if non-zero, number of spaces to insert for a <Tab>
 set autoindent				" automatically set the indent of a new line
 " }}}
 " 14 editing text {{{
-set textwidth=110			" line length above which to break a line
+set textwidth=130			" line length above which to break a line
 " }}}
 " 21 command line editing {{{
 set history=50				" keep 50 lines of command line history
