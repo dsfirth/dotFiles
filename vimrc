@@ -14,20 +14,22 @@ if has('win32') || has('win64')
 	set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
 endif
 
+" Bundles (plugins) {{{
 set rtp+=~/.vim/bundle/vundle
 call vundle#rc()
 
 " let Vundle manage Vundle, required!
 Bundle 'gmarik/vundle'
 
-" Bundles (plugins) {{{
-	" General
-	Bundle 'altercation/vim-colors-solarized'
-	Bundle 'xolox/vim-shell'
-	Bundle 'Lokaltog/vim-powerline'
+" General
+Bundle 'altercation/vim-colors-solarized'
+Bundle 'scrooloose/nerdtree'
+Bundle 'xolox/vim-misc'
+Bundle 'xolox/vim-shell'
+Bundle 'Lokaltog/vim-powerline'
 
-	" General Programming
-	Bundle 'tpope/vim-fugitive'
+" General Programming
+Bundle 'tpope/vim-fugitive'
 " }}}
 
 " allow backspacing over everything in insert mode
@@ -103,7 +105,7 @@ endif
 " Functions {{{
 " Keep persistent vim files (.swp, etc.) off my lawn!
 " original source: https://github.com/spf13/spf13-vim (modified)
-function! InitializeDirectories()
+function! InitializeDirectories() "{{{
 	let parent = $HOME . '/.vim'
 	let dir_list = {
 	            \ 'backup': 'backupdir',
@@ -129,6 +131,6 @@ function! InitializeDirectories()
 			exec "set " . settingname . "=" . directory
 		endif
 	endfor
-endfunction
+endfunction "}}}
 call InitializeDirectories()
 " }}}
