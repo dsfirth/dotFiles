@@ -92,6 +92,10 @@ nmap <silent> <Esc> :nohl<CR>
 
 " adjust viewports to the same size
 map <Leader>= <C-w>=
+
+" toggle NERD tree for this tab using <F4> keyboard shortcut
+imap <F4> <Esc>:NERDTreeToggle<CR>
+map <F4> :NERDTreeToggle<CR>
 " }}}
 
 " Convenient command to see the difference between the current buffer and the
