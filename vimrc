@@ -26,7 +26,7 @@ Bundle 'altercation/vim-colors-solarized'
 Bundle 'scrooloose/nerdtree'
 Bundle 'xolox/vim-misc'
 Bundle 'xolox/vim-shell'
-Bundle 'Lokaltog/vim-powerline'
+Bundle 'Lokaltog/powerline', { 'rtp': 'powerline/bindings/vim' }
 
 " General Programming
 Bundle 'tpope/vim-fugitive'
@@ -57,8 +57,9 @@ set laststatus=2			" when to use a status line (2: always)
 set hidden					" don't unload a buffer when no longer shown in a window
 " }}}
 " 12 messages and info {{{
-set showcmd					" show (partial) command keys in the status line
 set ruler					" show cursor position below each window
+set showcmd					" show (partial) command keys in the status line
+set noshowmode				" hide the default mode text (e.g. -- INSERT -- ) below the statusline
 " }}}
 " 15 tabs and indenting {{{
 set tabstop=4				" number of spaces a <Tab> in the text stands for
@@ -77,7 +78,7 @@ set wildmenu				" command-line completion shows a list of matches
 
 " Key (re-)Mappings {{{
 " Set leader to ,
-" NOTE: This line MUST come before any <Leader> mappings
+" NOTE : This line MUST come before any <Leader> mappings
 let mapleader = ','			" default is '\', but many prefer ',' as it's in a standard location.
 
 " make it so ';' works like ':' for commands; saves typing and eliminates
@@ -92,10 +93,6 @@ nmap <silent> <Esc> :nohl<CR>
 
 " adjust viewports to the same size
 map <Leader>= <C-w>=
-
-" toggle NERD tree for this tab using <F4> keyboard shortcut
-imap <F4> <Esc>:NERDTreeToggle<CR>
-map <F4> :NERDTreeToggle<CR>
 " }}}
 
 " Convenient command to see the difference between the current buffer and the
@@ -105,6 +102,28 @@ if !exists(":DiffOrig")
 	command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
 		\ | wincmd p | diffthis
 endif
+
+" nerdtree.vim (configure NERDTree plugin) {{{
+
+" toggle NERD tree for this tab using <F4> keyboard shortcut
+imap <F4> <Esc>:NERDTreeToggle<CR>
+map <F4> :NERDTreeToggle<CR>
+
+" Close all open buffers on entering a window if the only buffer that's left is the NERDTree buffer
+" original source: https://github.com/scrooloose/nerdtree/issues/21 
+function! s:CloseIfNERDTreeIsOnlyWindow()
+	if exists("t:NERDTreeBufName")
+		let nr = bufwinnr(t:NERDTreeBufName)
+		if nr != -1
+			if winnr("$") == 1
+				q
+			endif
+		endif
+	endif
+endfunction
+autocmd WinEnter * call s:CloseIfNERDTreeIsOnlyWindow()
+
+" }}}
 
 " Functions {{{
 " Keep persistent vim files (.swp, etc.) off my lawn!

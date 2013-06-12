@@ -1,5 +1,5 @@
-@if not exist "%HOME%" @set HOME=%HOMEDRIVE%%HOMEPATH%
-@if not exist "%HOME%" @set HOME=%USERPROFILE%
+if not exist "%HOME%" set HOME=%HOMEDRIVE%%HOMEPATH%
+if not exist "%HOME%" set HOME=%USERPROFILE%
 
 call mklink /h %HOME%\_gvimrc .\gvimrc
 call mklink /h %HOME%\_vimrc .\vimrc
