@@ -34,6 +34,7 @@ let g:Powerline_mode_cs = "S·BLOCK"
 
 " General Programming
 Bundle 'tpope/vim-fugitive'
+Bundle 'tpope/vim-surround'
 " }}}
 
 " allow backspacing over everything in insert mode
