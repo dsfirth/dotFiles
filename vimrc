@@ -94,7 +94,7 @@ vmap > >gv
 vmap < <gv
 
 " clear highlighted search results
-nmap <silent> <Esc> :nohl<CR>
+nnoremap <silent> <C-l> :nohl<CR><C-l>
 
 " adjust viewports to the same size
 map <Leader>= <C-w>=
