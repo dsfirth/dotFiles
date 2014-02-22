@@ -1,8 +1,8 @@
-" Modeline and Notes {{{
-" vim: set foldlevel=0 foldmethod=marker:
+" Modeline and Notes {
+" vim: set foldlevel=0 foldmarker={,} foldmethod=marker:
 "
 " You can find me at https://github.com/dsfirth/dotfiles 
-" }}}
+" }
 
 " Use Vim settings, rather than Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
@@ -14,7 +14,7 @@ if has('win32') || has('win64')
 	set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
 endif
 
-" Bundles (plugins) {{{
+" Bundles (plugins) {
 set rtp+=~/.vim/bundle/vundle
 call vundle#rc()
 
@@ -23,65 +23,63 @@ Bundle 'gmarik/vundle'
 
 " General
 Bundle 'altercation/vim-colors-solarized'
+Bundle 'bling/vim-airline'
 Bundle 'scrooloose/nerdtree'
 Bundle 'xolox/vim-misc'
 Bundle 'xolox/vim-shell'
-Bundle 'Lokaltog/vim-powerline'
-let g:Powerline_mode_V = "V·LINE"
-let g:Powerline_mode_cv = "V·BLOCK"
-let g:Powerline_mode_S = "S·LINE"
-let g:Powerline_mode_cs = "S·BLOCK"
 
 " General Programming
+Bundle 'PProvost/vim-ps1'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-surround'
-" }}}
+" }
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 
-set encoding=utf-8				" character encoding used in Vim: "utf-8" is required for vim-powerline
+set encoding=utf-8			" character encoding used in Vim: "utf-8" is required for vim-powerline
 
-" 2 moving around, searching and patterns {{{
+" 2 moving around, searching and patterns {
 set incsearch				" show match for partly typed search command
-" }}}
-" 4 displaying text {{{
+" }
+" 4 displaying text {
 set scrolloff=1				" number of screen lines to show around the cursor
+set nowrap					" long lines do [not] wrap
 set cmdheight=2				" number of lines used for the command-line
 set listchars=eol:¬,tab:»\ ,trail:·,extends:›,precedes:‹	" list of strings used for list mode
 set number					" show the line number for each line
-" }}}
-" 5 syntax, highlighting and spelling {{{
+" }
+" 5 syntax, highlighting and spelling {
 set background=dark
 filetype plugin indent on	" automatically detect filetype - required (by Vundle)!
 syntax on					" syntax highlighting
 set hlsearch				" highlight all matches for the last used search pattern
-" }}}
-" 6 multiple window {{{
+" }
+" 6 multiple window {
 set laststatus=2			" when to use a status line (2: always)
 set hidden					" don't unload a buffer when no longer shown in a window
-" }}}
-" 12 messages and info {{{
+" }
+" 12 messages and info {
 set ruler					" show cursor position below each window
 set showcmd					" show (partial) command keys in the status line
 set noshowmode				" hide the default mode text (e.g. -- INSERT -- ) below the statusline
-" }}}
-" 15 tabs and indenting {{{
+" }
+" 15 tabs and indenting {
 set tabstop=4				" number of spaces a <Tab> in the text stands for
 set shiftwidth=4			" number of spaces used for each step of (auto)indent
 set softtabstop=4			" if non-zero, number of spaces to insert for a <Tab>
 set autoindent				" automatically set the indent of a new line
-" }}}
-" 14 editing text {{{
+"}
+" 14 editing text {
 set textwidth=130			" line length above which to break a line
-" }}}
-" 21 command line editing {{{
+" }
+" 21 command line editing {
 set history=50				" keep 50 lines of command line history
 set wildmode=list:longest	" specifies <Tab> completion; list matches, then longest common part
 set wildmenu				" command-line completion shows a list of matches
-" }}}
+" }
 
-" Key (re-)Mappings {{{
+" Key (re-)Mappings {
 " Set leader to ,
 " NOTE : This line MUST come before any <Leader> mappings
 let mapleader = ','			" default is '\', but many prefer ',' as it's in a standard location.
@@ -98,7 +96,7 @@ nnoremap <silent> <Leader><Leader> :nohl<CR>
 
 " adjust viewports to the same size
 map <Leader>= <C-w>=
-" }}}
+" }
 
 " Convenient command to see the difference between the current buffer and the
 " file it was loaded from, thus the changes you made.
@@ -108,7 +106,7 @@ if !exists(":DiffOrig")
 		\ | wincmd p | diffthis
 endif
 
-" nerdtree.vim (configure NERDTree plugin) {{{
+" nerdtree.vim (configure NERDTree plugin) {
 
 " toggle NERD tree for this tab using <F4> keyboard shortcut
 imap <F4> <Esc>:NERDTreeToggle<CR>
@@ -128,12 +126,12 @@ function! s:CloseIfNERDTreeIsOnlyWindow()
 endfunction
 autocmd WinEnter * call s:CloseIfNERDTreeIsOnlyWindow()
 
-" }}}
+" }
 
-" Functions {{{
+" Functions {
 " Keep persistent vim files (.swp, etc.) off my lawn!
 " original source: https://github.com/spf13/spf13-vim (modified)
-function! InitializeDirectories() "{{{
+function! InitializeDirectories() "{
 	let parent = $HOME . '/.vim'
 	let dir_list = {
 	            \ 'backup': 'backupdir',
@@ -159,6 +157,6 @@ function! InitializeDirectories() "{{{
 			exec "set " . settingname . "=" . directory
 		endif
 	endfor
-endfunction "}}}
+endfunction "}
 call InitializeDirectories()
-" }}}
+" }
