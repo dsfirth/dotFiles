@@ -48,7 +48,7 @@ set incsearch				" show match for partly typed search command
 set scrolloff=1				" number of screen lines to show around the cursor
 set nowrap					" long lines do [not] wrap
 set cmdheight=2				" number of lines used for the command-line
-set listchars=eol:¬,tab:\| ,trail:·,extends:›,precedes:‹	" list of strings used for list mode
+set listchars=eol:¬,tab:\|\ ,trail:·,extends:›,precedes:‹	" list of strings used for list mode
 set number					" show the line number for each line
 " }
 " 5 syntax, highlighting and spelling {
