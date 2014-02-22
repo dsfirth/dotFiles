@@ -1,7 +1,7 @@
 " Modeline and Notes {
 " vim: set foldlevel=0 foldmarker={,} foldmethod=marker:
 "
-" You can find me at https://github.com/dsfirth/dotfiles 
+" You can find me at https://github.com/dsfirth/dotfiles
 " }
 
 " Use Vim settings, rather than Vi settings (much better!).
@@ -24,6 +24,8 @@ Bundle 'gmarik/vundle'
 " General
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'bling/vim-airline'
+let g:airline#extensions#whitespace#symbol = '•'
+let g:airline_powerline_fonts = 1
 Bundle 'scrooloose/nerdtree'
 Bundle 'xolox/vim-misc'
 Bundle 'xolox/vim-shell'
@@ -46,7 +48,7 @@ set incsearch				" show match for partly typed search command
 set scrolloff=1				" number of screen lines to show around the cursor
 set nowrap					" long lines do [not] wrap
 set cmdheight=2				" number of lines used for the command-line
-set listchars=eol:¬,tab:»\ ,trail:·,extends:›,precedes:‹	" list of strings used for list mode
+set listchars=eol:¬,tab:\| ,trail:·,extends:›,precedes:‹	" list of strings used for list mode
 set number					" show the line number for each line
 " }
 " 5 syntax, highlighting and spelling {
@@ -113,7 +115,7 @@ imap <F4> <Esc>:NERDTreeToggle<CR>
 map <F4> :NERDTreeToggle<CR>
 
 " Close all open buffers on entering a window if the only buffer that's left is the NERDTree buffer
-" original source: https://github.com/scrooloose/nerdtree/issues/21 
+" original source: https://github.com/scrooloose/nerdtree/issues/21
 function! s:CloseIfNERDTreeIsOnlyWindow()
 	if exists("t:NERDTreeBufName")
 		let nr = bufwinnr(t:NERDTreeBufName)
