@@ -26,14 +26,15 @@ Bundle 'altercation/vim-colors-solarized'
 Bundle 'bling/vim-airline'
 let g:airline#extensions#whitespace#symbol = '•'
 let g:airline_powerline_fonts = 1
+Bundle 'kien/ctrlp.vim'
 Bundle 'scrooloose/nerdtree'
 Bundle 'xolox/vim-misc'
 Bundle 'xolox/vim-shell'
 
 " General Programming
-Bundle 'PProvost/vim-ps1'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-surround'
+Bundle 'PProvost/vim-ps1'
 " }}}
 
 " allow backspacing over everything in insert mode
