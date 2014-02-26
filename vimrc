@@ -10,7 +10,7 @@ set nocompatible			" be iMproved
 filetype off				" required! (says Vundle)
 
 " On Windows, always use '.vim' instead of 'vimfiles'; this makes synchronization across (heterogeneous) systems easier.
-if has('win32') || has('win64')
+if has("win32") || has("win64")
 	set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
 endif
 
@@ -24,8 +24,12 @@ Bundle 'gmarik/vundle'
 " General
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'bling/vim-airline'
-let g:airline#extensions#whitespace#symbol = '•'
-let g:airline_powerline_fonts = 1
+if has("gui_running")
+	if has("gui_win32")
+		let g:airline#extensions#whitespace#symbol = '•'
+		let g:airline_powerline_fonts = 1
+	endif
+endif
 Bundle 'kien/ctrlp.vim'
 Bundle 'scrooloose/nerdtree'
 Bundle 'xolox/vim-misc'
