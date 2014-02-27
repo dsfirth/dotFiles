@@ -24,6 +24,7 @@ Bundle 'gmarik/vundle'
 " General
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'bling/vim-airline'
+let g:airline#extensions#tabline#enabled = 1
 if has("gui_running")
 	if has("gui_win32")
 		let g:airline#extensions#whitespace#symbol = '•'
