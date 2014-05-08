@@ -1,216 +1,239 @@
-" vimrc
-" Author: Darren S. Firth
-" Source: https://github.com/dsfirth/dotfiles/vim
+" Modeline and Notes {
+" vim: set sw=4 ts=4 sts=4 et foldmarker={,} foldlevel=0 foldmethod=marker:
 "
+" This is the personal .vimrc of Darren S. Firth. Much of the organizational structure was borrowed from spf13-vim.
+" You can find me at https://github.com/dsfirth/dotfiles/vim
 "
+" }
+" Environment {
 
-" Preamble ---------------------------------------------------------------- {{{
+    " Identify platform {
+        silent function! WIN32()
+            return (has('win16') || has('win32') || has('win64'))
+        endfunction
+    " }
+    " Basics {
+        set nocompatible            " be iMproved (must be first)
+    set encoding=utf-8
+    " }
+    " Windows compatibility {
+        " On Windows, also use '.vim' instead of 'vimfiles'; this makes synchronization across (heterogeneous) systems
+        " easier.
+        if WIN32()
+            set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
+        endif
+    " }
 
-" On Windows, always use '.vim' instead of 'vimfiles'; this makes synchronization across (heterogeneous) systems easier.
-if has("win32") || has("win64")
-	set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
-endif
+" }
+" Vundle.vim {
 
-set nocompatible			" be iMproved
-filetype off				" required! (says Vundle)
+    " Set up bundle support {
+        " requisite setup to ensure that the ~/.vim/bundle/ system works
+        filetype off                " required! (says Vundle)
+        set rtp+=~/.vim/bundle/Vundle.vim
+        call vundle#begin('~/.vim/bundle')
+    " }
+    " Bundles {
 
-" }}}
-" Basic options ----------------------------------------------------------- {{{
+        Plugin 'gmarik/Vundle.vim'  " let Vundle manage Vundle, required!
 
-set encoding=utf-8			" character encoding used in Vim: "utf-8" is required for vim-powerline
+        " General {
+            Plugin 'altercation/vim-colors-solarized'
+            Plugin 'bling/vim-airline'
+            Plugin 'kien/ctrlp.vim'
+            Plugin 'scrooloose/nerdtree'
+            Plugin 'tpope/vim-surround'
+            Plugin 'xolox/vim-misc'
+            Plugin 'xolox/vim-shell'
+        " }
 
-set autoindent
-set cmdheight=2				" number of lines used for the command-line
-set noshowmode				" hide the default mode text (e.g. -- INSERT -- ) below the statusline
-set showcmd					" show (partial) command keys in the status line
-set hidden					" don't unload a buffer when no longer shown in a window
-set backspace=indent,eol,start
-set number
-set ruler					" show cursor position below each window
-set laststatus=2			" when to use a status line (2: always)
-set history=500				" keep 50 lines of command line history
-set listchars=eol:¬,tab:\|\ ,trail:·,extends:›,precedes:‹
-set colorcolumn=+1
+        " General programming {
+            Plugin 'PProvost/vim-ps1'
+            Plugin 'tpope/vim-fugitive'
+        " }
 
-" Bundles (plugins) {{{
+    " }
 
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin('~/.vim/bundle')
+    call vundle#end()               " required
 
-" let Vundle manage Vundle, required!
-Plugin 'gmarik/Vundle.vim'
+" }
+" General {
 
-" General
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'bling/vim-airline'
-let g:airline#extensions#tabline#enabled = 1
-if has("gui_running")
-	if has("gui_win32")
-		let g:a=4			" number of spaces used for each step of (auto)indent
-		let g:airline_powerline_fonts = 1
-	endif
-endif
-Plugin 'kien/ctrlp.vim'
-Plugin 'scrooloose/nerdtree'
-Plugin 'xolox/vim-misc'
-Plugin 'xolox/vim-shell'
+    set background=dark             " assume a dark background
+    filetype plugin indent on       " automatically detect file type
+    syntax on                       " syntax highlighting
 
-" General Programming
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-surround'
-Plugin 'PProvost/vim-ps1'
+    if has('clipboard')
+        if has('unnamedplus')       " when possible, use + register for copy-paste
+            set clipboard=unnamedplus
+        else                        " on Mac OS X and Windows, use * register for copy-paste
+            set clipboard=unnamed
+        endif
+    endif
 
-call vundle#end()		" required (silent! for the error from s:rtp_add_defaults)
-filetype plugin indent on	" automatically detect filetype - required (by Vundle)!
+    set history=1000                " store a ton of history (default is 20)
+    set hidden
 
-" }}}
-" Wildmenu completion {{{
+    " Setting up the directories {
+        set backup                  " backups are nice ...
+        if has('persistent_undo')
+            set undofile            " so is persistent undo ...
+        endif
+    " }
 
-set wildmenu				" command-line completion shows a list of matches
-set wildmode=list:longest	" specifies <Tab> completion; list matches, then longest common part
+" }
+" Vim UI {
 
-" }}}
-" Tabs, spacing, wrapping {{{
+    if filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
+        colorscheme solarized
+    endif
 
-set tabstop=4				" number of spaces a <Tab> in the text stands for
-set shiftwidth=4			" number of spaces used for each step of (auto)indent
-set softtabstop=4			" if non-zero, number of spaces to insert for a <Tab>
-set nowrap					" long lines do [not] wrap
-set textwidth=120			" line length above which to break a line
+    set cmdheight=2                 " number of lines used for the command-line
+    set noshowmode                  " hide the default mode text (e.g. -- INSERT -- ) below the statusline
 
-" }}}
-" Colour scheme {{{
+    set cursorline                  " highlight current line
+    highlight clear CursorLineNr    " remove highlight color from current line number
 
-syntax on
-set background=dark
-silent! colorscheme solarized
+    if has('cmdline_info')
+        set ruler                   " show the ruler
+        set showcmd                 " show partial commands in the status line
+    endif
 
-" }}}
-" Backups {{{
+    if has('statusline')
+        set laststatus=2
+    endif
 
-" Keep persistent vim files (.swp, etc.) off my lawn!
-" original source: https://github.com/spf13/spf13-vim (modified)
-function! InitializeDirectories() "{{{
-	let parent = $HOME . '/.vim'
-	let dir_list = {
-	            \ 'backup': 'backupdir',
-	            \ 'views': 'viewdir',
-	            \ 'swap': 'directory' }
+    set backspace=indent,eol,start  " backspace for dummies
+    set colorcolumn=+1
+    set number                      " line numbers on
+    set incsearch                   " find-as-you-type search
+    set hlsearch                    " highlight search results
+    set wildmenu                    " show list instead of just completing
+    set wildmode=list:longest,full  " command <Tab> completion; list matches, then longest common part, then all
+    set scrolloff=3                 " minimum lines to keep above and below the cursor
+    "set list
+    set listchars=eol:¬,tab:\|\ ,trail:·,extends:›,precedes:‹
 
-	if has('persistent_undo')
-		let dir_list['undo'] = 'undodir'
-	endif
+" }
+" Formatting {
 
-	for [dirname, settingname] in items(dir_list)
-		let directory = parent . '/' . dirname . "/"
-		if exists("*mkdir")
-			if !isdirectory(directory)
-				call mkdir(directory)
-			endif
-		endif
-		if !isdirectory(directory)
-			echo "Warning: Unable to create backup directory: " . directory
-			echo "Try: mkdir -p " . directory
-		else
-			let directory = substitute(directory, " ", "\\\\ ", "g")
-			exec "set " . settingname . "=" . directory
-		endif
-	endfor
-endfunction "}}}
-call InitializeDirectories()
+    set nowrap                      " long lines do [not] wrap
+    set autoindent                  " indent at the same level of the previous line
+    set shiftwidth=4                " use indent of 4 spaces
+    set expandtab                   " tabs are spaces, not tabs
+    set tabstop=4                   " an indentation every four columns
+    set softtabstop=4               " let backspace delete indent
 
-" }}}
+    set textwidth=120               " break at 120 characters
 
-" }}}
-" Convenience mappings ---------------------------------------------------- {{{
+    autocmd FileType xml setlocal expandtab shiftwidth=2 softtabstop=2
 
-" mappings to access buffers
-" \l        : list buffers
-" \b \f \g  : go back/forward/last-used
-nnoremap <silent> <Leader>l :ls<CR>
-nnoremap <silent> <Leader>b :bp<CR>
-nnoremap <silent> <Leader>f :bn<CR>
-nnoremap <silent> <Leader>g :e#<CR>
+" }
+" Key (re)Mappings {
 
-" adjust viewports to the same size
-noremap <Leader>= <C-w>=
+    " mappings to access buffers
+    " \l        : list buffers
+    " \b \f \g  : go back/forward/last-used
+    nnoremap <silent> <Leader>l :ls<CR>
+    nnoremap <silent> <Leader>b :bp<CR>
+    nnoremap <silent> <Leader>f :bn<CR>
+    nnoremap <silent> <Leader>g :e#<CR>
 
-" visual [in|out]dentation (does not exit Visual mode)
-vnoremap > >gv
-vnoremap < <gv
+    " clear search highlighting
+    nnoremap <silent> <Leader><Leader> :nohl<CR>
 
-" }}}
-" Searching and movement -------------------------------------------------- {{{
+    " visual [in|out]dentation (does not exit Visual mode)
+    vnoremap > >gv
+    vnoremap < <gv
 
-set incsearch				" show match for partly typed search command
-set hlsearch				" highlight all matches for the last used search pattern
+    " adjust viewports to the same size
+    noremap <Leader>= <C-w>=
 
-set scrolloff=1				" number of screen lines to show around the cursor
+" }
+" Plugins {
 
-nnoremap <silent> <Leader><Leader> :nohl<CR>
+    " NERDTree {
+        noremap <F4> :NERDTreeToggle<CR>
+        inoremap <F4> <Esc>:NERDTreeToggle<CR>
 
-" }}}
-" Plugin settings --------------------------------------------------------- {{{
+        " Close all open buffers on entering a window if the only buffer that's left is the NERDTree buffer original
+        " source: https://github.com/scrooloose/nerdtree/issues/21
+        function! s:CloseIfNERDTreeIsOnlyWindow()
+            if exists("t:NERDTreeBufName")
+                let nr = bufwinnr(t:NERDTreeBufName)
+                if nr != -1
+                    if winnr("$") == 1
+                        q
+                    endif
+                endif
+            endif
+        endfunction
+        autocmd WinEnter * call s:CloseIfNERDTreeIsOnlyWindow()
+    " }
+    " vim-airline {
+        " Set configuration options for the statusline plugin, vim-airline.
+        let g:airline#extensions#tabline#enabled = 1
 
-" NERDTree {{{
+        let g:airline_powerline_fonts = 1
+        if !exists('g:airline_powerline_fonts')
+            " use basic separators when powerline fonts are not available
+            let g:airline_left_sep=' '
+            let g:airline_right_sep=' '
+        endif
+    " }
 
-noremap <F4> :NERDTreeToggle<CR>
-inoremap <F4> <Esc>:NERDTreeToggle<CR>
+" }
+" GUI Settings {
 
-" Close all open buffers on entering a window if the only buffer that's left is the NERDTree buffer
-" original source: https://github.com/scrooloose/nerdtree/issues/21
-function! s:CloseIfNERDTreeIsOnlyWindow()
-	if exists("t:NERDTreeBufName")
-		let nr = bufwinnr(t:NERDTreeBufName)
-		if nr != -1
-			if winnr("$") == 1
-				q
-			endif
-		endif
-	endif
-endfunction
-autocmd WinEnter * call s:CloseIfNERDTreeIsOnlyWindow()
+    " GVIM- (here instead of .gvimrc)
+    if has('gui_running')
+        set guioptions-=m           " remove menu bar
+        set guioptions-=T           " remove Toolbar
+        set guioptions-=r           " remove (always-visible) right-hand scrollbar
+        set guioptions-=L           " remove left-hand scrollbar
 
-" }}}
+        set columns=150             " 150 columns of text
+        set lines=40                " 40 lines of text instead of 24
 
-" }}}
-" Mini-plugins ------------------------------------------------------------ {{{
+        if WIN32()
+            set guifont=DejaVu_Sans_Mono_for_Powerline:h10:cANSI,Consolas:h11:cDEFAULT
+        endif
+    endif
 
-" DiffOrig {{{
+" }
+" Functions {
 
-" Convenient command to see the difference between the current buffer and the
-" file it was loaded from, thus the changes you made.
-" Only define it when not defined already.
-if !exists(":DiffOrig")
-	command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
-		\ | wincmd p | diffthis
-endif
+    " Initialize directories {
+    " Keep persistent vim files (.swp, etc.) off my lawn!
+    " original source: https://github.com/spf13/spf13-vim (modified)
+    function! InitializeDirectories()
+        let parent = $HOME . '/.vim'
+        let dir_list = {
+                    \ 'backup': 'backupdir',
+                    \ 'views': 'viewdir',
+                    \ 'swap': 'directory' }
 
-" }}}
+        if has('persistent_undo')
+            let dir_list['undo'] = 'undodir'
+        endif
 
-" }}}
-" Environments (GUI/Console) ---------------------------------------------- {{{
+        for [dirname, settingname] in items(dir_list)
+            let directory = parent . '/' . dirname . "/"
+            if exists("*mkdir")
+                if !isdirectory(directory)
+                    call mkdir(directory)
+                endif
+            endif
+            if !isdirectory(directory)
+                echo "Warning: Unable to create backup directory: " . directory
+                echo "Try: mkdir -p " . directory
+            else
+                let directory = substitute(directory, " ", "\\\\ ", "g")
+                exec "set " . settingname . "=" . directory
+            endif
+        endfor
+    endfunction
+    call InitializeDirectories()
+    " }
 
-if has('gui_running')
-	" GUI Vim
-	set guifont=DejaVu_Sans_Mono_for_Powerline:h10:cANSI,Consolas:h11:cDEFAULT
-
-	set columns=150			" width of the display
-	set lines=45			" number of lines in the display
-
-	" remove all the GUI cruft
-	set guioptions-=m		" remove menu bar
-	set guioptions-=T		" remove Toolbar
-	set guioptions-=r		" remove (always-visible) right-hand scrollbar
-	set guioptions-=L		" remove left-hand scrollbar
-	
-	" if has('gui_win32')
-	" 	" gVim
-	" endif
-else
-	" console Vim
-endif
-
-" }}}
-
-" vim: set foldlevel=0 foldmethod=marker:
+" }
