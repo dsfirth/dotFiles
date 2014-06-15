@@ -32,9 +32,9 @@ call vundle#begin('~/.vim/bundle')
 
 Plugin 'gmarik/Vundle.vim'      " let Vundle manage Vundle, required!
 
-Plugin 'altercation/vim-colors-solarized'
 Plugin 'chriskempson/base16-vim'
 Plugin 'nanotech/jellybeans.vim'
+Plugin 'altercation/vim-colors-solarized'
 
 Plugin 'bling/vim-airline'
 Plugin 'kien/ctrlp.vim'
@@ -74,9 +74,7 @@ endif
 " }}}
 " Vim UI {{{
 
-if filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
-    colorscheme solarized
-endif
+silent! colorscheme jellybeans
 
 set cmdheight=2                 " number of lines used for the command-line
 set noshowmode                  " hide the default mode text (e.g. -- INSERT -- ) below the statusline
