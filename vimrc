@@ -34,6 +34,7 @@ Plugin 'gmarik/Vundle.vim'      " let Vundle manage Vundle, required!
 
 Plugin 'chriskempson/base16-vim'
 Plugin 'nanotech/jellybeans.vim'
+Plugin 'lsdr/monokai'
 Plugin 'altercation/vim-colors-solarized'
 
 Plugin 'bling/vim-airline'
