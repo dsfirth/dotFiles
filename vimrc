@@ -56,14 +56,6 @@ set background=dark             " assume a dark background
 filetype plugin indent on       " automatically detect file type
 syntax on                       " syntax highlighting
 
-if has('clipboard')
-    if has('unnamedplus')       " when possible, use + register for copy-paste
-        set clipboard=unnamedplus
-    else                        " on Mac OS X and Windows, use * register for copy-paste
-        set clipboard=unnamed
-    endif
-endif
-
 set history=1000                " store a ton of history (default is 20)
 set hidden
 
