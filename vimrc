@@ -173,8 +173,8 @@ if has('gui_running')
     set guioptions-=r           " remove (always-visible) right-hand scrollbar
     set guioptions-=L           " remove left-hand scrollbar
 
-    set columns=150             " 150 columns of text
-    set lines=40                " 40 lines of text instead of 24
+    set columns=160             " 160 columns of text
+    set lines=46                " 46 lines of text instead of 24
 
     if WIN32()
         set guifont=DejaVu_Sans_Mono_for_Powerline:h10:cANSI,Consolas:h11:cDEFAULT
