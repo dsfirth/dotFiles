@@ -50,7 +50,7 @@ endif
 " }
 
 " Vim UI {
-silent! colorscheme jellybeans  " load a colorscheme
+silent! colorscheme monokai     " load a colorscheme
 
 set cmdheight=2
 set cursorline                  " highlight current line
