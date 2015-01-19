@@ -1,16 +1,16 @@
-" Environment {
+" Environment {{{
 
-" Identify platform {
+" Identify platform {{{
 silent function! WINDOWS()
     return (has('win16') || has('win32') || has('win64'))
 endfunction
-" }
+" }}}
 
-" Basics {
+" Basics {{{
 set nocompatible                " must be first line
-" }
+" }}}
 
-" }
+" }}}
 
 " let Vundle manage Vundle, required
 filetype off                    " required for Vundle
@@ -21,53 +21,78 @@ call vundle#begin('~/vimfiles/bundle')
 
 Plugin 'gmarik/Vundle.vim'
 
-" various color schemes
-Plugin 'chriskempson/base16-vim'
-Plugin 'nanotech/jellybeans.vim'
-Plugin 'lsdr/monokai'
-Plugin 'altercation/vim-colors-solarized'
+" General {{{
+    Plugin 'chriskempson/base16-vim'
+    Plugin 'kien/ctrlp.vim'
+    Plugin 'nanotech/jellybeans.vim'
+    Plugin 'itchyny/landscape.vim'
+    Plugin 'itchyny/lightline.vim'
+    Plugin 'lsdr/monokai'
+    Plugin 'altercation/vim-colors-solarized'
+    Plugin 'tpope/vim-repeat'
+    Plugin 'tpope/vim-surround'
+" }}}
 
-Plugin 'itchyny/lightline.vim'
-Plugin 'kien/ctrlp.vim'
-
-Plugin 'tpope/vim-surround'
+" Javascript {{{
+    Plugin 'elzr/vim-json'
+" }}}
 
 call vundle#end()		" required
 
-" General {
+" General {{{
 
-set background=dark
-filetype plugin indent on       " automatically detect file types
-syntax on                       " syntax highlighting
+    set background=dark
+    filetype plugin indent on       " automatically detect file types
+    syntax on                       " syntax highlighting
 
-set backup                      " backups are nice ...
-if has('persistent_undo')
-    set undofile                " so is persistent undo ...
-    set undolevels=1000         " maximum number of changes that can be undone
-    set undoreload=10000        " maximum number lines to save for undo on a buffer reload
-endif
+    set backup                      " backups are nice ...
+    if has('persistent_undo')
+        set undofile                " so is persistent undo ...
+        set undolevels=1000         " maximum number of changes that can be undone
+        set undoreload=10000        " maximum number lines to save for undo on a buffer reload
+    endif
 
-" }
+" }}}
 
-" Vim UI {
-silent! colorscheme monokai     " load a colorscheme
+" Vim UI {{{
 
-set cmdheight=2
-set cursorline                  " highlight current line
-set noshowmode                  " remove default vim mode
+    silent! colorscheme solarized   " load a colorscheme
 
-if has('statusline')
-    set laststatus=2
-endif
+    set cmdheight=2
+    set cursorline                  " highlight current line
+    highlight clear CursorLineNr    " remove highlight color from current line number
+    set noshowmode                  " hide the default mode text (e.g. -- INSERT --) below the statusline
 
-set backspace=indent,eol,start  " backspace for dummies
-" }
+    if has('statusline')
+        set laststatus=2
+    endif
 
-" Plug-ins {
+    set backspace=indent,eol,start  " backspace for dummies
+    set linespace=0
+    set number                      " line numbers on
+    set listchars=eol:¬,tab:\|\ ,trail:·,extends:›,precedes:‹
 
-" lightline.vim {
+" }}}
+
+" Formatting {{{
+
+    set nowrap                  " do not wrap long lines
+
+" }}}
+
+" Key (re)Mappings {{{
+
+    " Visual shifting (does not exit Visual mode)
+    vnoremap < <gv
+    vnoremap > >gv
+    
+" }}}
+
+" Plug-ins {{{
+
+" lightline.vim {{{
 let g:lightline = {
-            \ 'colorscheme': 'jellybeans',
+            \ 'colorscheme': 'solarized',
             \ 'active': {
             \   'left': [ [ 'mode' ], [ 'filename' ] ]
             \ },
@@ -86,7 +111,7 @@ function! MyModified()
     elseif &modifiable
         return ""
     else
-        return "
+        return ""
     endif
 endfunction
 
@@ -94,7 +119,7 @@ function! MyReadonly()
     if &filetype == "help"
         return ""
     elseif &readonly
-        return "ro"
+        return "RO"
     else
         return ""
     endif
@@ -102,15 +127,38 @@ endfunction
 
 function! MyFilename()
     return '' .
-         \ ('' != MyReadonly() ? '[' . MyReadonly() . ']' : '') .
+         \ ('' != MyReadonly() ?  MyReadonly() . ' ' : '') .
          \ ('' != expand('%:t') ? expand('%:t') : '[No Name]') .
          \ ('' != MyModified() ?  ' ' . MyModified() : '')
 endfunction
-" }
 
-" }
+" add on-the-fly colorscheme updates to lightline
+augroup LightLineColorscheme
+    autocmd!
+    autocmd ColorScheme * call s:lightline_update()
+augroup END
+function! s:lightline_update()
+    if !exists('g:loaded_lightline')
+        return
+    endif
+    try
+        if g:colors_name =~# 'wombat\|solarized\|landscape\|jellybeans\|Tomorrow'
 
-" GUI Settings {
+            let g:lightline.colorscheme = 
+                        \ substitute(substitute(g:colors_name, '-', '_', 'g'), '256.*', '', '') .
+                        \ (g:colors_name ==# 'solarized' ? '_' . &background : '')
+            call lightline#init()
+            call lightline#colorscheme()
+            call lightline#update()
+        endif
+    catch
+    endtry
+endfunction
+" }}}
+
+" }}}
+
+" GUI Settings {{{
 
 " GVIM- (here instead of .gvimrc)
 if has('gui_running')
@@ -128,11 +176,11 @@ if has('gui_running')
 else
     set t_Co=256
 endif
-" }
+" }}}
 
-" Functions {
+" Functions {{{
 
-" Initialize directories {
+" Initialize directories {{{
 " original source: https://github.com/spf13/spf13-vim/blob/3.0/.vimrc
 function! InitializeDirectories()
     let parent = $HOME . '/vimfiles'
@@ -165,10 +213,10 @@ function! InitializeDirectories()
     endfor
 endfunction
 call InitializeDirectories()
-" }
+" }}}
 
-" }
+" }}}
 
-" Modeline and Notes {
-" vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={,} foldlevel=0 foldmethod=marker:
-" }
+" Modeline and Notes {{{
+" vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={{{,}}} foldlevel=1 foldmethod=marker:
+" }}}
