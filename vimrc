@@ -75,6 +75,7 @@ call vundle#end()		            " required
     set linespace=0
     set number                      " line numbers on
     set incsearch
+    set hlsearch
     set wildmenu                    " show list instead of just completing
     set wildmode=list:longest,full  " command <Tab> completion: list matches, then longest common part, then all
     set scrolloff=3                 " minimum lines to keep above and below cursor
