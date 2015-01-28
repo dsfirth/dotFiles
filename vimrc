@@ -2,13 +2,13 @@
 
 " Identify platform {{{
 silent function! WINDOWS()
-    return (has('win16') || has('win32') || has('win64'))
-endfunction
-" }}}
+return (has('win16') || has('win32') || has('win64'))
+        endfunction
+    " }}}
 
-" Basics {{{
-set nocompatible                " must be first line
-" }}}
+    " Basics {{{
+        set nocompatible                " must be first line
+    " }}}
 
 " }}}
 
@@ -22,20 +22,30 @@ call vundle#begin('~/vimfiles/bundle')
 Plugin 'gmarik/Vundle.vim'
 
 " General {{{
-    Plugin 'chriskempson/base16-vim'
     Plugin 'kien/ctrlp.vim'
-    Plugin 'nanotech/jellybeans.vim'
-    Plugin 'itchyny/landscape.vim'
-    Plugin 'itchyny/lightline.vim'
-    Plugin 'lsdr/monokai'
     Plugin 'scrooloose/nerdtree'
-    Plugin 'altercation/vim-colors-solarized'
+    Plugin 'bling/vim-airline'
+    Plugin 'tpope/vim-fugitive'
     Plugin 'tpope/vim-repeat'
     Plugin 'tpope/vim-surround'
 " }}}
 
+" Colorschemes {{{
+    Plugin 'chriskempson/base16-vim'
+    Plugin 'nanotech/jellybeans.vim'
+    Plugin 'itchyny/landscape.vim'
+    Plugin 'Pychimp/vim-luna'
+    Plugin 'lsdr/monokai'
+    Plugin 'Pychimp/vim-sol'
+    Plugin 'altercation/vim-colors-solarized'
+" }}}
+
 " Javascript {{{
     Plugin 'elzr/vim-json'
+" }}}
+
+" PowerShell {{{
+    Plugin 'PProvost/vim-ps1'
 " }}}
 
 call vundle#end()		            " required
@@ -60,7 +70,7 @@ call vundle#end()		            " required
 
 " Vim UI {{{
 
-    silent! colorscheme landscape   " load a colorscheme
+    silent! colorscheme jellybeans  " load a colorscheme
 
     set cmdheight=2
     set cursorline                  " highlight current line
@@ -96,7 +106,17 @@ call vundle#end()		            " required
     " Visual shifting (does not exit Visual mode)
     vnoremap < <gv
     vnoremap > >gv
-    
+
+    " disable arrow keys
+    map <up> <nop>
+    map <down> <nop>
+    map <left> <nop>
+    map <right> <nop>
+    imap <up> <nop>
+    imap <down> <nop>
+    imap <left> <nop>
+    imap <right> <nop>
+
 " }}}
 
 " Plug-ins {{{
@@ -104,110 +124,30 @@ call vundle#end()		            " required
     " ctrlp.vim {{{
     " }}}
 
-    " lightline.vim {{{
-        let g:lightline = {
-                    \ 'colorscheme': 'landscape',
-                    \ 'active': {
-                    \   'left': [ [ 'mode', 'paste' ], [ 'filename' ], [ 'ctrlpmark' ] ]
-                    \ },
-                    \ 'component_function': {
-                    \   'filename': 'MyFilename',
-                    \   'mode': 'MyMode',
-                    \   'ctrlpmark': 'CtrlPMark',
-                    \ },
-                    \ }
-
-        function! MyModified()
-            return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
-        endfunction
-
-        function! MyReadonly()
-            return &ft !~ 'help' && &readonly ? 'RO' : ''
-        endfunction
-
-        function! MyFilename()
-            let fname = expand('%:t')
-            return fname == 'ControlP' ? g:lightline.ctrlp_item :
-                        \ ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
-                        \ ('' != fname ? fname : '[No Name]') .
-                        \ ('' != MyModified() ? ' ' . MyModified() : '')
-        endfunction
-
-        function! MyMode()
-            let fname = expand('%:t')
-            return fname == 'ControlP' ? 'CtrlP' :
-                        \ winwidth(0) > 60 ? lightline#mode() : ''
-        endfunction
-
-        function! CtrlPMark()
-            if expand('%:t') =~ 'ControlP'
-                call lightline#link('iR'[g:lightline.ctrlp_regex])
-                return lightline#concatenate([g:lightline.ctrlp_prev, g:lightline.ctrlp_item, g:lightline.ctrlp_next], 0)
-            else
-                return ''
-            endif
-        endfunction
-
-        let g:ctrlp_status_func = {
-                    \ 'main': 'CtrlPStatusFunc_1',
-                    \ 'prog': 'CtrlPStatusFunc_2',
-                    \ }
-
-        function! CtrlPStatusFunc_1(focus, byfname, regex, prev, item, next, marked)
-            let g:lightline.ctrlp_regex = a:regex
-            let g:lightline.ctrlp_prev = a:prev
-            let g:lightline.ctrlp_item = a:item
-            let g:lightline.ctrlp_next = a:next
-            return lightline#statusline(0)
-        endfunction
-
-        function! CtrlPStatusFunc_2(str)
-            return lightline#statusline(0)
-        endfunction
-
-        " add on-the-fly colorscheme updates to lightline
-        augroup LightLineColorscheme
-            autocmd!
-            autocmd ColorScheme * call s:lightline_update()
-        augroup END
-        function! s:lightline_update()
-            if !exists('g:loaded_lightline')
-                return
-            endif
-            try
-                if g:colors_name =~# 'wombat\|solarized\|landscape\|jellybeans\|Tomorrow'
-
-                    let g:lightline.colorscheme = 
-                                \ substitute(substitute(g:colors_name, '-', '_', 'g'), '256.*', '', '') .
-                                \ (g:colors_name ==# 'solarized' ? '_' . &background : '')
-                    call lightline#init()
-                    call lightline#colorscheme()
-                    call lightline#update()
-                endif
-            catch
-            endtry
-        endfunction
-    " }}}
-
     " NERDTree {{{
-    noremap <F4> :NERDTreeToggle<CR>
-    inoremap <F4> <Esc>:NERDTreeToggle<CR>
+        noremap <F4> :NERDTreeToggle<CR>
+        inoremap <F4> <Esc>:NERDTreeToggle<CR>
 
-    autocmd WinEnter * call s:CloseIfOnlyNerdTreeLeft()
+        autocmd WinEnter * call s:CloseIfOnlyNerdTreeLeft()
 
-    " Close all open buffers on entering a window if the only
-    " buffer that's left is the NERDTree buffer
-    function! s:CloseIfOnlyNerdTreeLeft()
-        if exists("t:NERDTreeBufName")
-            if bufwinnr(t:NERDTreeBufName) != -1
-                if winnr("$") == 1
-                    quit
+        " Close all open buffers on entering a window if the only
+        " buffer that's left is the NERDTree buffer
+        function! s:CloseIfOnlyNerdTreeLeft()
+            if exists("t:NERDTreeBufName")
+                if bufwinnr(t:NERDTreeBufName) != -1
+                    if winnr("$") == 1
+                        quit
+                    endif
                 endif
             endif
-        endif
-    endfunction
+        endfunction
     " }}}
 
+    " vim-airline {{{
+        let g:airline_left_sep = ''
+        let g:airline_right_sep = ''
+        let g:airline#extensions#tabline#enabled = 1
+    " }}}
 " }}}
 
 " GUI Settings {{{
@@ -270,5 +210,5 @@ call InitializeDirectories()
 " }}}
 
 " Modeline and Notes {{{
-" vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={{{,}}} foldlevel=1 foldmethod=marker:
+" vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={{{,}}} foldlevel=2 foldmethod=marker:
 " }}}
