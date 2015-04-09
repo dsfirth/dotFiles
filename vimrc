@@ -1,8 +1,8 @@
 " Environment {{{
 
-" Identify platform {{{
-silent function! WINDOWS()
-return (has('win16') || has('win32') || has('win64'))
+    " Identify platform {{{
+        silent function! WINDOWS()
+            return (has('win16') || has('win32') || has('win64'))
         endfunction
     " }}}
 
@@ -99,6 +99,9 @@ call vundle#end()		            " required
 
     autocmd FileType xml setlocal expandtab shiftwidth=2 softtabstop=2
 
+    autocmd BufRead,BufNewFile *.script set filetype=scope
+    autocmd BufRead,BufNewFile *.module set filetype=scope
+    autocmd BufRead,BufNewFile *.view set filetype=scope
 " }}}
 
 " Key (re)Mappings {{{
