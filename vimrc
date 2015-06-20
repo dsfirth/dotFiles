@@ -16,8 +16,8 @@
 filetype off                    " required for Vundle
 
 " set the runtime path to include Vundle and initialize
-set rtp+=~/vimfiles/bundle/Vundle.vim
-call vundle#begin('~/vimfiles/bundle')
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin('~/.vim/bundle')
 
 Plugin 'gmarik/Vundle.vim'
 
@@ -178,7 +178,7 @@ call vundle#end()		            " required
 " Initialize directories {{{
 " original source: https://github.com/spf13/spf13-vim/blob/3.0/.vimrc
 function! InitializeDirectories()
-    let parent = $HOME . '/vimfiles'
+    let parent = $HOME . '/.vim'
     let prefix = ''
     let dir_list = {
                 \ 'backup': 'backupdir',
