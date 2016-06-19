@@ -91,7 +91,7 @@ call vundle#end()		            " required
     set wildmode=list:longest,full  " command <Tab> completion: list matches, then longest common part, then all
     set scrolloff=3                 " minimum lines to keep above and below cursor
     set sidescroll=1
-    set listchars=eol:¬,tab:\|\ ,trail:·,extends:›,precedes:‹
+    set listchars=eol:¬,tab:»\ ,trail:·,extends:>,precedes:<
 
 " }}}
 
