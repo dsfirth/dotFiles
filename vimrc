@@ -12,48 +12,8 @@
 
 " }}}
 
-" let Vundle manage Vundle, required
-filetype off                    " required for Vundle
-
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin('~/.vim/bundle')
-
-Plugin 'gmarik/Vundle.vim'
-
-" General {{{
-    Plugin 'kien/ctrlp.vim'
-    Plugin 'scrooloose/nerdtree'
-    Plugin 'vim-airline/vim-airline'
-    Plugin 'vim-airline/vim-airline-themes'
-    Plugin 'tpope/vim-fugitive'
-    Plugin 'tpope/vim-repeat'
-    Plugin 'tpope/vim-surround'
-" }}}
-
-" Colorschemes {{{
-    Plugin 'chriskempson/base16-vim'
-    Plugin 'nanotech/jellybeans.vim'
-    Plugin 'itchyny/landscape.vim'
-    Plugin 'Pychimp/vim-luna'
-    Plugin 'lsdr/monokai'
-    Plugin 'Pychimp/vim-sol'
-    Plugin 'altercation/vim-colors-solarized'
-" }}}
-
-" Javascript {{{
-    Plugin 'elzr/vim-json'
-" }}}
-
-" PowerShell {{{
-    Plugin 'PProvost/vim-ps1'
-" }}}
-
-call vundle#end()		            " required
-
 " General {{{
 
-    set background=dark
     filetype plugin indent on       " automatically detect file types
     syntax on                       " syntax highlighting
 
@@ -71,11 +31,7 @@ call vundle#end()		            " required
 
 " Vim UI {{{
 
-    silent! colorscheme jellybeans  " load a colorscheme
-
     set cmdheight=2
-    set cursorline                  " highlight current line
-    highlight clear CursorLineNr    " remove highlight color from current line number
     set noshowmode                  " hide the default mode text (e.g. -- INSERT --) below the statusline
 
     if has('statusline')
@@ -122,37 +78,6 @@ call vundle#end()		            " required
     imap <left> <nop>
     imap <right> <nop>
 
-" }}}
-
-" Plug-ins {{{
-
-    " ctrlp.vim {{{
-    " }}}
-
-    " NERDTree {{{
-        noremap <F4> :NERDTreeToggle<CR>
-        inoremap <F4> <Esc>:NERDTreeToggle<CR>
-
-        autocmd WinEnter * call s:CloseIfOnlyNerdTreeLeft()
-
-        " Close all open buffers on entering a window if the only
-        " buffer that's left is the NERDTree buffer
-        function! s:CloseIfOnlyNerdTreeLeft()
-            if exists("t:NERDTreeBufName")
-                if bufwinnr(t:NERDTreeBufName) != -1
-                    if winnr("$") == 1
-                        quit
-                    endif
-                endif
-            endif
-        endfunction
-    " }}}
-
-    " vim-airline {{{
-        let g:airline_left_sep = ''
-        let g:airline_right_sep = ''
-        let g:airline#extensions#tabline#enabled = 1
-    " }}}
 " }}}
 
 " GUI Settings {{{
