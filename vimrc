@@ -14,6 +14,10 @@
 
 " General {{{
 
+    " set the runtime path to include ~/.vim
+    set runtimepath+=$HOME/.vim
+
+    set background=dark
     filetype plugin indent on       " automatically detect file types
     syntax on                       " syntax highlighting
 
@@ -30,6 +34,8 @@
 " }}}
 
 " Vim UI {{{
+
+    silent! colorscheme jellybeans  " load a colorscheme
 
     set cmdheight=2
     set noshowmode                  " hide the default mode text (e.g. -- INSERT --) below the statusline
