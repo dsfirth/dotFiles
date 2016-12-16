@@ -17,11 +17,10 @@
     " set the runtime path to include ~/.vim
     set runtimepath+=$HOME/.vim
 
-    set background=dark
-    filetype plugin indent on       " automatically detect file types
-    syntax on                       " syntax highlighting
+    execute pathogen#infect()
 
-    set history=1000
+    set background=dark
+
     set hidden
 
     set backup                      " backups are nice ...
@@ -40,20 +39,11 @@
     set cmdheight=2
     set noshowmode                  " hide the default mode text (e.g. -- INSERT --) below the statusline
 
-    if has('statusline')
-        set laststatus=2
-    endif
-
-    set backspace=indent,eol,start  " backspace for dummies
     set linespace=0
     set number                      " line numbers on
-    set incsearch
     set hlsearch
-    set wildmenu                    " show list instead of just completing
     set wildmode=list:longest,full  " command <Tab> completion: list matches, then longest common part, then all
-    set scrolloff=3                 " minimum lines to keep above and below cursor
     set sidescroll=1
-    set listchars=eol:¬,tab:»\ ,trail:·,extends:>,precedes:<
 
 " }}}
 
