@@ -19,7 +19,7 @@
 
     execute pathogen#infect()
 
-    set background=dark
+    set background=light
 
     set hidden
 
