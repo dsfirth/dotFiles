@@ -28,6 +28,6 @@ switch ($Target)
         Invoke-WebRequest -Uri "https://tpo.pe/pathogen.vim" -OutFile "$PSScriptRoot\vim\autoload\pathogen.vim"
      }
     'clean' {
-        Remove-Item -Path "$env:HOME\.vim","$env:HOME\.vimrc" -Recurse -Force -ErrorAction Ignore
+        Remove-Item -Path "$env:HOME\.vim","$env:HOME\_vimrc" -Recurse -Force -ErrorAction Ignore
     }
 }
