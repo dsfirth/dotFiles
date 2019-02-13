@@ -11,6 +11,7 @@ switch ($Target)
         Write-Output "Backing up existing .vim and _vimrc to $HOME/.vim.bak, $HOME/_vimrc.bak,"
         if (Test-Path -Path "$HOME\.vim") { Move-Item -Path "$HOME\.vim" -Destination "$HOME\.vim.bak" }
         if (Test-Path -Path "$HOME\_vimrc") { Move-Item -Path "$HOME\_vimrc" -Destination "$HOME\_vimrc.bak" }
+        if (Test-Path -Path "$HOME\AppData\Local\nvim\init.vim") { Move-Item -Path "$HOME\AppData\Local\nvim\init.vim" -Destination "$HOME\AppData\Local\nvim\init.vim.bak" }
 
         Write-Output "initializing submodules,"
         git submodule update --init
@@ -18,6 +19,7 @@ switch ($Target)
         Write-Output "linking up new .vim and _vimrc,"
         New-Item -Path "$HOME\.vim" -ItemType Junction -Value "$PSScriptRoot\vim"
         New-Item -Path "$HOME\_vimrc" -ItemType HardLink -Value "$PSScriptRoot\vimrc"
+        New-Item -Path "$HOME\AppData\Local\nvim\init.vim" -ItemType HardLink -Value "$PSScriptRoot\vimrc"
         Write-Output "All done.  Happy Vimming!"
     }
     'update' {
@@ -28,6 +30,6 @@ switch ($Target)
         Invoke-WebRequest -Uri "https://tpo.pe/pathogen.vim" -OutFile "$PSScriptRoot\vim\autoload\pathogen.vim"
      }
     'clean' {
-        Remove-Item -Path "$HOME\.vim","$HOME\_vimrc" -Recurse -Force -ErrorAction Ignore
+        Remove-Item -Path "$HOME\.vim","$HOME\_vimrc","$HOME\AppData\Local\nvim\init.vim" -Recurse -Force -ErrorAction Ignore
     }
 }
